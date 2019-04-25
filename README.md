@@ -10,3 +10,5 @@ UpBroadcast: HOSTNAME up
 My server in basement takes long time to boot, so I made this program
 to send UDP packet when server is ready. My VPS then captures this
 packet, and sends me message on telegram.
+# How to test?
+run `nc -vvulp 64665` on one terminal and `upbroadcast` on other
