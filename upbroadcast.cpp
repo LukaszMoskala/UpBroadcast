@@ -41,4 +41,5 @@ int main() {
     {
         cout<<"Failed to send UDP Broadcast packet"<<endl;
     }
+    return EXIT_SUCCESS;
 }
