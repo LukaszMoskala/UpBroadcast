@@ -19,25 +19,51 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <unistd.h>
 #include <limits.h>
 #include <cstring>
-
+#include <fstream>
 using namespace std;
 
 int main() {
+    string conf_ip="255.255.255.255";
+    unsigned short conf_port=64665;
+
+    ifstream conf;
+    conf.open("/etc/upbroadcast.conf");
+    if(!conf.is_open()) {
+        cout<<"Warning: failed to open config file"<<endl;
+    }
+    else {
+        while(conf.good()) {
+            string line;
+            getline(conf, line);
+            if(line[0] == '#') {
+                continue;
+            }
+            streampos space=line.find(' ');
+            if(space == string::npos) {
+                continue;
+            }
+            string key=line.substr(0, space);
+            string val=line.substr(space+1);
+            if(key == "ip")
+                conf_ip = val;
+            if(key == "port")
+                conf_port = atoi(val.c_str());
+        }
+    }
     //from:
     //https://stackoverflow.com/questions/27914311/get-computer-name-and-logged-user-name
     char hostname[HOST_NAME_MAX+1];
     memset(hostname, 0, sizeof(hostname));
     gethostname(hostname, HOST_NAME_MAX);
 
-    sf::IpAddress recipient = "255.255.255.255";
-    unsigned short port = 64665;
+    sf::IpAddress recipient = conf_ip;
     sf::UdpSocket socket;
 
     string data="UpBroadcast: ";
     data+=string(hostname);
     data+=" up";
 
-    if (socket.send(data.c_str(), data.size(), recipient, port) != sf::Socket::Done)
+    if (socket.send(data.c_str(), data.size(), recipient, conf_port) != sf::Socket::Done)
     {
         cout<<"Failed to send UDP Broadcast packet"<<endl;
     }
