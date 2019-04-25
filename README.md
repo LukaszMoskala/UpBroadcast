@@ -12,3 +12,7 @@ to send UDP packet when server is ready. My VPS then captures this
 packet, and sends me message on telegram.
 # How to test?
 run `nc -vvulp 64665` on one terminal and `upbroadcast` on other
+# Dependencies
+Program depends on `SFML`, because I wanted to keep things simple.
+Instead of writing my own library, everything is provided
+by `SFML/Network.hpp`.
