@@ -1,0 +1,11 @@
+[Unit]
+Description=Tell everyone on network that we are ready
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/
+ExecStart=/usr/local/bin/upbroadcast
+
+[Install]
+WantedBy=multi-user.target

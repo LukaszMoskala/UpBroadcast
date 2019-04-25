@@ -4,6 +4,7 @@ CXX=g++
 override CXXFLAGS+=-O2 --std=c++17
 CXXLIBS=-lsfml-network
 PREFIX=/usr/local
+SYSTEMD_LOCATION=/etc/systemd/system
 all: upbroadcast
 upbroadcast.o: upbroadcast.cpp
 	$(CXX) $(CXXFLAGS) -c -o upbroadcast.o upbroadcast.cpp
@@ -13,3 +14,5 @@ install:
 	install -m 775 upbroadcast $(PREFIX)/bin/
 clean:
 	rm -f upbroadcast.o
+installservice:
+	install -m 644 upbroadcast.service $(SYSTEMD_LOCATION)/
